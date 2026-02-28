@@ -1,30 +1,23 @@
-// Question1/student.c
-// ------------------------------------------------------------
-// CS Lab03 - Reverse Linked List 
-//
-// TODO:
-//   Implement reverseList(head) to reverse a singly linked list.
-//
-// Rules:
-// - Do not allocate new nodes.
-// - Do not use recursion.
-// - Return the new head pointer.
-// ------------------------------------------------------------
-
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     struct ListNode *next;
- * };
- */
-
 #include "student.h"
+#include <stddef.h>  // For NULL definition
 
 struct ListNode* reverseList(struct ListNode* head) {
-    // TODO: implement
-    // Hints (optional):
-    // - Keep track of previous and current pointers.
-    // - Iterate until current becomes NULL.
-
+    struct ListNode *prev = NULL;
+    struct ListNode *current = head;
+    struct ListNode *next = NULL;
+    
+    while (current != NULL) {
+        // Store the next node
+        next = current->next;
+        
+        // Reverse the link - point current node to previous node
+        current->next = prev;
+        
+        // Move prev and current pointers one step forward
+        prev = current;
+        current = next;
+    }
+    
+    // prev becomes the new head of the reversed list
+    return prev;
 }
