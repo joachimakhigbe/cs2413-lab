@@ -1,61 +1,39 @@
-#include <stddef.h>
+#include <stddef.h>  // For NULL
 
-/*
-Question 3: Sum Root to Leaf Numbers
-
-You are given the root of a binary tree containing digits from 0 to 9 only.
-
-Each root-to-leaf path represents a number.
-For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
-
-Return the total sum of all root-to-leaf numbers.
-
-A leaf node is a node with no children.
-
-Examples:
-
-Example 1:
-Input:
-        1
-       / \
-      2   3
-Output: 25
-Explanation:
-The root-to-leaf path 1->2 represents 12.
-The root-to-leaf path 1->3 represents 13.
-12 + 13 = 25.
-
-Example 2:
-Input:
-          4
-         / \
-        9   0
-       / \
-      5   1
-Output: 1026
-Explanation:
-The numbers are 495, 491, and 40.
-495 + 491 + 40 = 1026.
-
-Function to complete:
-    int sumNumbers(struct TreeNode* root);
-
-Note:
-- Each node stores a digit from 0 to 9.
-- If the tree is empty, return 0.
-- Build the current number as you move from root to leaf.
-*/
-
-/*
- * Definition for a binary tree node.
- */
+// Definition of TreeNode structure
 struct TreeNode {
     int val;
     struct TreeNode *left;
     struct TreeNode *right;
 };
 
+// Helper function for DFS traversal
+void dfs(struct TreeNode* node, int currentSum, int* total) {
+    if (node == NULL) {
+        return;
+    }
+    
+    // Update current number by appending current node's digit
+    // currentSum * 10 shifts existing digits left and adds new digit
+    currentSum = currentSum * 10 + node->val;
+    
+    // If it's a leaf node, add to total
+    if (node->left == NULL && node->right == NULL) {
+        *total += currentSum;
+        return;
+    }
+    
+    // Recursively traverse left and right subtrees
+    dfs(node->left, currentSum, total);
+    dfs(node->right, currentSum, total);
+}
 
 int sumNumbers(struct TreeNode* root) {
-      // TODO: implement
+    if (root == NULL) {
+        return 0;
+    }
+    
+    int total = 0;
+    dfs(root, 0, &total);
+    return total;
 }

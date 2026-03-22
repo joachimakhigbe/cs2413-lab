@@ -1,55 +1,39 @@
-#include <stdbool.h>
-#include <stddef.h>
+#include <stdbool.h>  // For bool, true, false
+#include <stddef.h>   // For NULL
 
-/*
-Question 2: Symmetric Tree
-
-Given the root of a binary tree, check whether it is symmetric
-around its center.
-
-A tree is symmetric if the left subtree is a mirror reflection
-of the right subtree.
-
-Examples:
-
-Example 1:
-Input:
-        1
-       / \
-      2   2
-     / \ / \
-    3  4 4  3
-Output: true
-
-Example 2:
-Input:
-        1
-       / \
-      2   2
-       \   \
-       3    3
-Output: false
-
-Function to complete:
-    bool isSymmetric(struct TreeNode* root);
-
-Note:
-- An empty tree is considered symmetric.
-- You should compare the left subtree and right subtree
-  as mirror images.
-*/
-
-/*
- * Definition for a binary tree node.
- */
+// Definition of TreeNode structure
 struct TreeNode {
     int val;
     struct TreeNode *left;
     struct TreeNode *right;
 };
 
-
+// Helper function to check if two trees are mirror images
+bool isMirror(struct TreeNode* left, struct TreeNode* right) {
+    // If both are NULL, they're mirrors
+    if (left == NULL && right == NULL) {
+        return true;
+    }
+    
+    // If one is NULL and the other isn't, they're not mirrors
+    if (left == NULL || right == NULL) {
+        return false;
+    }
+    
+    // Check if current nodes have same value AND
+    // left's left is mirror of right's right AND
+    // left's right is mirror of right's left
+    return (left->val == right->val) &&
+           isMirror(left->left, right->right) &&
+           isMirror(left->right, right->left);
+}
 
 bool isSymmetric(struct TreeNode* root) {
-  // TODO: implement
+    // An empty tree is symmetric
+    if (root == NULL) {
+        return true;
+    }
+    
+    // Check if left and right subtrees are mirrors of each other
+    return isMirror(root->left, root->right);
 }
