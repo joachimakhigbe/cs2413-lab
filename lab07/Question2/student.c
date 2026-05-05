@@ -1,36 +1,70 @@
-/*
-Question 2: Merge Sort
+#include <cstdlib>  // for malloc and free
 
-Description:
-Implement merge sort to sort an integer array in ascending order.
-
-Merge sort is a divide-and-conquer algorithm:
-1. Divide the array into two halves.
-2. Recursively sort each half.
-3. Merge the two sorted halves into one sorted array.
-
-You should implement:
-
-    void mergeSort(int arr[], int size);
-
-You may design your own helper functions.
-Suggested helper functions:
-
-    void mergeSortHelper(int arr[], int left, int right);
-    void merge(int arr[], int left, int mid, int right);
-
-Example:
-Input:  [38, 27, 43, 3, 9, 82, 10]
-Output: [3, 9, 10, 27, 38, 43, 82]
-
-Notes:
-- If the array is empty or has only one element, do nothing.
-- You may use temporary arrays inside your merge function.
-*/
-
-void mergeSort(int arr[], int size) {
-    // TODO: implement merge sort
-    (void)arr;
-    (void)size;
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    
+    // Create temporary arrays
+    int* L = (int*)malloc(n1 * sizeof(int));
+    int* R = (int*)malloc(n2 * sizeof(int));
+    
+    // Copy data to temporary arrays
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+    
+    // Merge the temporary arrays back into arr[left..right]
+    int i = 0;    // Initial index of first subarray
+    int j = 0;    // Initial index of second subarray
+    int k = left; // Initial index of merged subarray
+    
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    // Copy remaining elements of L[] if any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    
+    // Copy remaining elements of R[] if any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+    
+    // Free temporary arrays
+    free(L);
+    free(R);
 }
 
+void mergeSortHelper(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        
+        // Sort first and second halves
+        mergeSortHelper(arr, left, mid);
+        mergeSortHelper(arr, mid + 1, right);
+        
+        // Merge the sorted halves
+        merge(arr, left, mid, right);
+    }
+}
+
+void mergeSort(int arr[], int size) {
+    if (size <= 1) {
+        return;  // Already sorted or empty
+    }
+    mergeSortHelper(arr, 0, size - 1);
+}

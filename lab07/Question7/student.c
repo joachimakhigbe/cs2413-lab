@@ -60,6 +60,17 @@ Sort arr[left...right] using insertion sort.
 */
 void insertionSort(int arr[], int left, int right) {
     // TODO: implement insertion sort for arr[left...right]
+    for (int i = left + 1; i <= right; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        
+        // Shift elements greater than key to the right
+        while (j >= left && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
 }
 
 /*
@@ -67,6 +78,54 @@ Merge two sorted subarrays into one sorted subarray.
 */
 void merge(int arr[], int left, int mid, int right) {
     // TODO: implement merge operation
+    int n1 = mid - left + 1;  // Size of left subarray
+    int n2 = right - mid;      // Size of right subarray
+    
+    // Create temporary arrays
+    int* leftArr = (int*)malloc(n1 * sizeof(int));
+    int* rightArr = (int*)malloc(n2 * sizeof(int));
+    
+    // Copy data to temporary arrays
+    for (int i = 0; i < n1; i++) {
+        leftArr[i] = arr[left + i];
+    }
+    for (int j = 0; j < n2; j++) {
+        rightArr[j] = arr[mid + 1 + j];
+    }
+    
+    // Merge the temporary arrays back into arr[left...right]
+    int i = 0;  // Index for leftArr
+    int j = 0;  // Index for rightArr
+    int k = left;  // Index for merged array
+    
+    while (i < n1 && j < n2) {
+        if (leftArr[i] <= rightArr[j]) {
+            arr[k] = leftArr[i];
+            i++;
+        } else {
+            arr[k] = rightArr[j];
+            j++;
+        }
+        k++;
+    }
+    
+    // Copy remaining elements of leftArr, if any
+    while (i < n1) {
+        arr[k] = leftArr[i];
+        i++;
+        k++;
+    }
+    
+    // Copy remaining elements of rightArr, if any
+    while (j < n2) {
+        arr[k] = rightArr[j];
+        j++;
+        k++;
+    }
+    
+    // Free temporary arrays
+    free(leftArr);
+    free(rightArr);
 }
 
 /*
@@ -74,6 +133,23 @@ Hybrid merge sort.
 */
 void hybridMergeSort(int arr[], int left, int right, int k) {
     // TODO: implement hybrid merge sort
+    // Base case: if the subarray size is small, use insertion sort
+    if (right - left + 1 <= k) {
+        insertionSort(arr, left, right);
+        return;
+    }
+    
+    // Recursive case: use merge sort
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        
+        // Sort first and second halves
+        hybridMergeSort(arr, left, mid, k);
+        hybridMergeSort(arr, mid + 1, right, k);
+        
+        // Merge the sorted halves
+        merge(arr, left, mid, right);
+    }
 }
 
 int main() {
