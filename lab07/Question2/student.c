@@ -1,4 +1,5 @@
 #include <cstdlib>  // for malloc and free
+#include <stdio.h>   // for printf
 
 void merge(int arr[], int left, int mid, int right) {
     int n1 = mid - left + 1;
@@ -67,4 +68,28 @@ void mergeSort(int arr[], int size) {
         return;  // Already sorted or empty
     }
     mergeSortHelper(arr, 0, size - 1);
+}
+
+// Helper function to print array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// Example usage
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90, 5, 77, 33};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    
+    printf("Original array: ");
+    printArray(arr, size);
+    
+    mergeSort(arr, size);
+    
+    printf("Sorted array:   ");
+    printArray(arr, size);
+    
+    return 0;
 }

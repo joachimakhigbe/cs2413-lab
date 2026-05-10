@@ -18,12 +18,6 @@ Input array:
 
 Expected sorted output:
 [9, 18, 27, 39, 45, 72, 81, 90]
-
-Students need to complete:
-
-1. insertionSort
-2. merge
-3. hybridMergeSort
 */
 
 /*
@@ -59,7 +53,7 @@ int isSorted(int arr[], int size) {
 Sort arr[left...right] using insertion sort.
 */
 void insertionSort(int arr[], int left, int right) {
-    // TODO: implement insertion sort for arr[left...right]
+    // Insertion sort for arr[left...right]
     for (int i = left + 1; i <= right; i++) {
         int key = arr[i];
         int j = i - 1;
@@ -77,7 +71,7 @@ void insertionSort(int arr[], int left, int right) {
 Merge two sorted subarrays into one sorted subarray.
 */
 void merge(int arr[], int left, int mid, int right) {
-    // TODO: implement merge operation
+    // Merge operation
     int n1 = mid - left + 1;  // Size of left subarray
     int n2 = right - mid;      // Size of right subarray
     
@@ -132,7 +126,6 @@ void merge(int arr[], int left, int mid, int right) {
 Hybrid merge sort.
 */
 void hybridMergeSort(int arr[], int left, int right, int k) {
-    // TODO: implement hybrid merge sort
     // Base case: if the subarray size is small, use insertion sort
     if (right - left + 1 <= k) {
         insertionSort(arr, left, right);

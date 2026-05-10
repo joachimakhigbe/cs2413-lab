@@ -1,5 +1,7 @@
 #include <stdbool.h>
+#include <stdio.h>
 
+// Standard bubble sort
 void bubbleSort(int arr[], int size) {
     // If array is empty or has one element, do nothing
     if (size <= 1) {
@@ -23,6 +25,7 @@ void bubbleSort(int arr[], int size) {
     }
 }
 
+// Optimized bubble sort with early termination
 void bubbleSortOptimized(int arr[], int size) {
     // If array is empty or has one element, do nothing
     if (size <= 1) {
@@ -52,4 +55,37 @@ void bubbleSortOptimized(int arr[], int size) {
             break;
         }
     }
+}
+
+// Helper function to print array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// Example usage
+int main() {
+    int arr1[] = {64, 34, 25, 12, 22, 11, 90};
+    int size1 = sizeof(arr1) / sizeof(arr1[0]);
+    
+    printf("Original array: ");
+    printArray(arr1, size1);
+    
+    bubbleSort(arr1, size1);
+    printf("Sorted array (standard): ");
+    printArray(arr1, size1);
+    
+    int arr2[] = {64, 34, 25, 12, 22, 11, 90};
+    int size2 = sizeof(arr2) / sizeof(arr2[0]);
+    
+    printf("\nOriginal array: ");
+    printArray(arr2, size2);
+    
+    bubbleSortOptimized(arr2, size2);
+    printf("Sorted array (optimized): ");
+    printArray(arr2, size2);
+    
+    return 0;
 }
